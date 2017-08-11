@@ -43,6 +43,8 @@ private slots:
     void on_action_Paste_triggered();
     void closeEvent(QCloseEvent *event);
 
+    void on_action_Version_triggered();
+
 private:
     Ui::MainWindow *ui;
 

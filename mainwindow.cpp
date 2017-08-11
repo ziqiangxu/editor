@@ -4,6 +4,7 @@
 #include <QPushButton>
 #include <QTextStream>
 #include <QFileDialog>
+#include "about.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -184,4 +185,11 @@ void MainWindow::on_action_Copy_triggered()
 void MainWindow::on_action_Paste_triggered()
 {
     ui->textEdit->paste();
+}
+
+void MainWindow::on_action_Version_triggered()
+{
+    About *version = new About(this);
+    version->show();
+    version->setWindowTitle("关于");
 }
