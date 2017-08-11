@@ -5,6 +5,8 @@
 #include <QTextStream>
 #include <QFileDialog>
 #include "about.h"
+#include <QDialog>
+#include <QLineEdit>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -15,6 +17,15 @@ MainWindow::MainWindow(QWidget *parent) :
     isUntiled = true;  //init the file's status didn't saved
     curFile = tr("untitled.txt");
     setWindowTitle(curFile);
+    //初始化查找文本操作
+    findDlg = new QDialog(this);
+    findDlg->setWindowTitle(tr("查找"));
+    findLineEdit = new QLineEdit(findDlg);  //接受一个QDialg对话为初始化对象的参数
+    QPushButton *btn = new QPushButton(tr("查找下一个"), findDlg);  //在一个对话框上添加一个按钮
+    QVBoxLayout *layout = new QVBoxLayout(findDlg);
+    layout->addWidget(findLineEdit);
+    layout->addWidget(btn);
+    connect(btn,&QPushButton::clicked,this,&MainWindow::showFindText);
 }
 
 MainWindow::~MainWindow()
@@ -192,4 +203,23 @@ void MainWindow::on_action_Version_triggered()
     About *version = new About(this);
     version->show();
     version->setWindowTitle("关于");
+}
+
+void MainWindow::showFindText()
+{
+    QString str = findLineEdit->text();
+    if (ui->textEdit->find(str,QTextDocument::FindBackward))
+    {
+        findDlg->setWindowTitle(tr("已找到"));
+    }
+    else
+    {
+        findDlg->setWindowTitle("未找到");
+    }
+}
+
+void MainWindow::on_action_Find_triggered()
+{
+    findDlg->setWindowTitle(tr("查找字符"));
+    findDlg->show();
 }

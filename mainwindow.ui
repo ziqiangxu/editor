@@ -120,6 +120,9 @@
    <property name="text">
     <string>查找(&amp;F)</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+F</string>
+   </property>
   </action>
   <action name="action_Version">
    <property name="text">
