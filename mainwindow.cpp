@@ -234,6 +234,7 @@ void MainWindow::on_action_Commit_triggered()
     QString commit = "/home/xu/commit.sh";
     QString push = "/home/xu/push.sh";
     int ResultCode = bash.execute(commit);
+    bash.execute(push);
     if(ResultCode == 0){
             setWindowTitle(tr("执行正常"));
         }
