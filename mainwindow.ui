@@ -56,8 +56,15 @@
     </property>
     <addaction name="action_Version"/>
    </widget>
+   <widget class="QMenu" name="menu_A">
+    <property name="title">
+     <string>高级功能(&amp;A)</string>
+    </property>
+    <addaction name="action_Commit"/>
+   </widget>
    <addaction name="menu_F"/>
    <addaction name="menu"/>
+   <addaction name="menu_A"/>
    <addaction name="menu_2"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
@@ -89,6 +96,9 @@
   <action name="action_SaveAs">
    <property name="text">
     <string>另存为(&amp;A)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+A</string>
    </property>
   </action>
   <action name="action_Exit">
@@ -132,6 +142,14 @@
   <action name="action_Open">
    <property name="text">
     <string>打开(&amp;O)</string>
+   </property>
+  </action>
+  <action name="action_Commit">
+   <property name="text">
+    <string>提交到git(&amp;G)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+C</string>
    </property>
   </action>
  </widget>

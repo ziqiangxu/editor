@@ -7,6 +7,8 @@
 #include "about.h"
 #include <QDialog>
 #include <QLineEdit>
+#include <iostream>
+#include <QProcess>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -14,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    isUntiled = true;  //init the file's status didn't saved
+    isUntiled = true;
     curFile = tr("untitled.txt");
     setWindowTitle(curFile);
     //初始化查找文本操作
@@ -99,7 +101,7 @@ bool MainWindow::saveFile(const QString &fileName)
     QApplication::setOverrideCursor(Qt::WaitCursor);  //mouse to be waitting
     out << ui->textEdit->toPlainText();
     QApplication::restoreOverrideCursor();
-    isUntiled = false;
+    isUntiled = false;  //文件已保存在磁盘
     curFile = QFileInfo(fileName).canonicalFilePath();  //get the file's path
     setWindowTitle(curFile);
     return true;
@@ -121,6 +123,7 @@ bool MainWindow::loadFile(const QString &fileName)
     ui->textEdit->setPlainText(in.readAll());
     QApplication::restoreOverrideCursor();
     curFile = QFileInfo(fileName).canonicalFilePath();
+    isUntiled = false;
     setWindowTitle(curFile);
     return true;
 }
@@ -169,7 +172,7 @@ void MainWindow::on_action_Exit_triggered()
 //用户常点击右上角的按钮退出程序，退出程序前保存文件
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    if (maybeSave())
+   if (maybeSave())
     {
         event->accept();
     }
@@ -222,4 +225,20 @@ void MainWindow::on_action_Find_triggered()
 {
     findDlg->setWindowTitle(tr("查找字符"));
     findDlg->show();
+}
+
+void MainWindow::on_action_Commit_triggered()
+{
+    QApplication::setOverrideCursor(Qt::WaitCursor);  //阻塞，鼠标设置为等待
+    QProcess bash;
+    QString commit = "/home/xu/commit.sh";
+    QString push = "/home/xu/push.sh";
+    int ResultCode = bash.execute(commit);
+    if(ResultCode == 0){
+            setWindowTitle(tr("执行正常"));
+        }
+        else {
+            setWindowTitle(tr("执行异常"));
+        }
+    QApplication::restoreOverrideCursor();
 }

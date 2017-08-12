@@ -50,10 +50,12 @@ private slots:
 
     void on_action_Find_triggered();
 
+    void on_action_Commit_triggered();
+
 private:
     Ui::MainWindow *ui;
 
-    bool isUntiled;  //to mark weather the file be saved
+    bool isUntiled;  //to mark weather the file exist
     QString curFile;  //save the current file path
     QLineEdit *findLineEdit;
     QDialog *findDlg;
