@@ -9,6 +9,7 @@
 #include <QLineEdit>
 #include <iostream>
 #include <QProcess>
+#include <QLabel>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -27,7 +28,14 @@ MainWindow::MainWindow(QWidget *parent) :
     QVBoxLayout *layout = new QVBoxLayout(findDlg);
     layout->addWidget(findLineEdit);
     layout->addWidget(btn);
-    connect(btn,&QPushButton::clicked,this,&MainWindow::showFindText);
+    connect(btn,&QPushButton::clicked,this,&MainWindow::showFindText);  //查找窗口的信号——槽连接函数
+
+    permanentLable = new QLabel;
+    permanentLable->setFrameStyle(QFrame::Box | QFrame::Sunken);
+    permanentLable->setText(tr("<a href=\"https://ziqiangxu.github.io\">访问我的博客</a>"));
+    permanentLable->setTextFormat(Qt::RichText);
+    permanentLable->setOpenExternalLinks(true);
+    ui->statusBar->addPermanentWidget(permanentLable);
 }
 
 MainWindow::~MainWindow()
@@ -234,12 +242,16 @@ void MainWindow::on_action_Commit_triggered()
     QString commit = "/home/xu/commit.sh";
     QString push = "/home/xu/push.sh";
     int ResultCode = bash.execute(commit);
-    bash.execute(push);
+    //bash.execute(push);
+    QApplication::restoreOverrideCursor();
     if(ResultCode == 0){
-            setWindowTitle(tr("执行正常"));
+            ui->statusBar->showMessage(tr("执行正常"),3000);  //3000毫秒之后消失
         }
         else {
-            setWindowTitle(tr("执行异常"));
+        QMessageBox::warning(this,
+                              tr("提交结果"),
+                              tr("有可能产生本警告的原因：\n"
+                                 "1.您未对本地仓库进行修改；\n"
+                                 "2.无法连接到网络；"));
         }
-    QApplication::restoreOverrideCursor();
 }

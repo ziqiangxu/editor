@@ -4,6 +4,7 @@
 #include <QMainWindow>
 class QLineEdit;
 class QDialog;
+class QLabel;
 
 namespace Ui {
 class MainWindow;
@@ -59,6 +60,7 @@ private:
     QString curFile;  //save the current file path
     QLineEdit *findLineEdit;
     QDialog *findDlg;
+    QLabel *permanentLable;
 };
 
 #endif // MAINWINDOW_H

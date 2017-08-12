@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>500</width>
-    <height>381</height>
+    <width>800</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -25,7 +25,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>500</width>
+     <width>800</width>
      <height>26</height>
     </rect>
    </property>
@@ -68,6 +68,18 @@
    <addaction name="menu_2"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="action_Commit"/>
+  </widget>
   <action name="action_New">
    <property name="icon">
     <iconset>
@@ -145,8 +157,15 @@
    </property>
   </action>
   <action name="action_Commit">
+   <property name="icon">
+    <iconset resource="source/source.qrc">
+     <normaloff>:/icon/myicon.ico</normaloff>:/icon/myicon.ico</iconset>
+   </property>
    <property name="text">
     <string>提交到git(&amp;G)</string>
+   </property>
+   <property name="statusTip">
+    <string>提交到git</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+C</string>
@@ -154,6 +173,8 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="source/source.qrc"/>
+ </resources>
  <connections/>
 </ui>
