@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "about.h"
 #include "system.h"
+#include "git.h"
 
 #include <QMessageBox>
 #include <QPushButton>
@@ -116,6 +117,7 @@ bool MainWindow::saveFile(const QString &fileName)
     isUntiled = false;  //文件已保存在磁盘
     curFile = QFileInfo(fileName).canonicalFilePath();  //get the file's path
     setWindowTitle(curFile);
+    ui->statusBar->showMessage(tr("已保存"),3000);
     return true;
 }
 
@@ -241,36 +243,38 @@ void MainWindow::on_action_Find_triggered()
 
 void MainWindow::on_action_Commit_triggered()
 {
-    QApplication::setOverrideCursor(Qt::WaitCursor);  //阻塞，鼠标设置为等待
-    QProcess bash;
+    Git git;
     System s;
 
-    QString commit = s.getHomePath() + "/commit.sh";
-    QString push = s.getHomePath() + "/push.sh";
+    QApplication::setOverrideCursor(Qt::WaitCursor);  //阻塞，鼠标设置为等待
+    bool commit_result = git.commit();
+    bool push_result = false;
+    if (s.netStatus()) push_result = git.push();
+    QApplication::restoreOverrideCursor();
 
-    int ResultCode = bash.execute(commit);
-    //commit和push分步进行
-    if(ResultCode == 0)
+    if (commit_result && push_result)
     {
-            ui->statusBar->showMessage(tr("已提交到本地"),3000);  //3000毫秒之后消失
-            if (s.netStatus())
-            {
-                bash.execute(push);
-                QApplication::restoreOverrideCursor();
-                ui->statusBar->showMessage(tr("已提交到git"),3000);
-            }
-            else {
-                QApplication::restoreOverrideCursor();
-                QMessageBox::warning(this,
-                                      tr("提交结果"),
-                                      tr("网络连接出错"));
-            }
+        ui->statusBar->showMessage(tr("已提交到git"),8000);
+        QMessageBox::about(this,
+                           tr("温馨提示"),
+                           tr("成功提交到git"));
     }
-        else {
-        QApplication::restoreOverrideCursor();
+    else if (!commit_result && push_result) {
+        QMessageBox::warning(this,
+                              tr("提交结果"),
+                              tr("只上传了您上一次的更新"));
+    }
+    else if (!commit_result && !push_result) {
         QMessageBox::warning(this,
                               tr("提交结果"),
                               tr("可能产生本警告的原因：\n"
-                                 "1.您未对本地仓库中的文件进行修改。"));
-        }
+                                 "1.您未对本地仓库中的文件进行修改;\n"
+                                 "2.本地提交失败，而且网络不通。"));
+    }
+    else if (commit_result && !push_result) {
+        QMessageBox::warning(this,
+                              tr("提交结果"),
+                              tr("提交到git失败：\n"
+                                 "请检查您的网络！"));
+    }
 }
