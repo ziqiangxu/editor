@@ -1,15 +1,19 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "about.h"
+#include "system.h"
+
 #include <QMessageBox>
 #include <QPushButton>
 #include <QTextStream>
 #include <QFileDialog>
-#include "about.h"
 #include <QDialog>
 #include <QLineEdit>
 #include <iostream>
 #include <QProcess>
 #include <QLabel>
+#include <QString>
+#include <QDesktopServices>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -239,19 +243,34 @@ void MainWindow::on_action_Commit_triggered()
 {
     QApplication::setOverrideCursor(Qt::WaitCursor);  //阻塞，鼠标设置为等待
     QProcess bash;
-    QString commit = "/home/xu/commit.sh";
-    QString push = "/home/xu/push.sh";
+    System s;
+
+    QString commit = s.getHomePath() + "/commit.sh";
+    QString push = s.getHomePath() + "/push.sh";
+
     int ResultCode = bash.execute(commit);
-    //bash.execute(push);
-    QApplication::restoreOverrideCursor();
-    if(ResultCode == 0){
-            ui->statusBar->showMessage(tr("执行正常"),3000);  //3000毫秒之后消失
-        }
+    //commit和push分步进行
+    if(ResultCode == 0)
+    {
+            ui->statusBar->showMessage(tr("已提交到本地"),3000);  //3000毫秒之后消失
+            if (s.netStatus())
+            {
+                bash.execute(push);
+                QApplication::restoreOverrideCursor();
+                ui->statusBar->showMessage(tr("已提交到git"),3000);
+            }
+            else {
+                QApplication::restoreOverrideCursor();
+                QMessageBox::warning(this,
+                                      tr("提交结果"),
+                                      tr("网络连接出错"));
+            }
+    }
         else {
+        QApplication::restoreOverrideCursor();
         QMessageBox::warning(this,
                               tr("提交结果"),
-                              tr("有可能产生本警告的原因：\n"
-                                 "1.您未对本地仓库进行修改；\n"
-                                 "2.无法连接到网络；"));
+                              tr("可能产生本警告的原因：\n"
+                                 "1.您未对本地仓库中的文件进行修改。"));
         }
 }
