@@ -17,25 +17,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef ABOUT_H
-#define ABOUT_H
+#include "settings.h"
+#include "ui_settings.h"
 
-#include <QDialog>
-
-namespace Ui {
-class About;
+Settings::Settings(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::Settings)
+{
+    ui->setupUi(this);
 }
 
-class About : public QDialog
+Settings::~Settings()
 {
-    Q_OBJECT
-
-public:
-    explicit About(QWidget *parent = 0);
-    ~About();
-
-private:
-    Ui::About *ui;
-};
-
-#endif // ABOUT_H
+    delete ui;
+}

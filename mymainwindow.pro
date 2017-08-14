@@ -16,15 +16,18 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     about.cpp \
     system.cpp \
-    git.cpp
+    git.cpp \
+    settings.cpp
 
 HEADERS  += mainwindow.h \
     about.h \
     system.h \
-    git.h
+    git.h \
+    settings.h
 
 FORMS    += mainwindow.ui \
-    about.ui
+    about.ui \
+    settings.ui
 
 RESOURCES += \
     source/source.qrc

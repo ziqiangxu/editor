@@ -1,3 +1,22 @@
+/* -*- Mode: C++; indent-tabs-mode: nil; tab-width: 4 -*-
+ * -*- coding: utf-8 -*-
+ *
+ * Author:     Ziqiang Xu <ziqiang_xu@yeah.net>
+ * Maintainer: Ziqiang Xu <ziqiang_xu@yeah.net>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "about.h"
@@ -52,6 +71,7 @@ void MainWindow::newFile()
 {
     if (maybeSave()){  //get weather the file need to save
         isUntiled = true;
+        isSaved = false;
         curFile = tr("untiled.txt");
         setWindowTitle(curFile);
         ui->textEdit->clear();
@@ -62,7 +82,8 @@ void MainWindow::newFile()
 
 bool MainWindow::maybeSave()
 {
-    if (ui->textEdit->document()->isModified())
+    //文本框内容与加载文件时发生了变化，而且isSaved值为false则表示未保存
+    if (ui->textEdit->document()->isModified() && !isSaved)
     {
         QMessageBox box;
         box.setWindowTitle(tr("警告"));
@@ -118,6 +139,7 @@ bool MainWindow::saveFile(const QString &fileName)
     curFile = QFileInfo(fileName).canonicalFilePath();  //get the file's path
     setWindowTitle(curFile);
     ui->statusBar->showMessage(tr("已保存"),3000);
+    isSaved = true;  //标记文件已保存
     return true;
 }
 
@@ -138,6 +160,7 @@ bool MainWindow::loadFile(const QString &fileName)
     QApplication::restoreOverrideCursor();
     curFile = QFileInfo(fileName).canonicalFilePath();
     isUntiled = false;
+    isSaved = false;  //打开文件时isSaved置为false
     setWindowTitle(curFile);
     return true;
 }
@@ -247,6 +270,7 @@ void MainWindow::on_action_Commit_triggered()
     System s;
 
     QApplication::setOverrideCursor(Qt::WaitCursor);  //阻塞，鼠标设置为等待
+
     bool commit_result = git.commit();
     bool push_result = false;
     if (s.netStatus()) push_result = git.push();
