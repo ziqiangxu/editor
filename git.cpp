@@ -33,13 +33,13 @@ Git::Git()
 bool Git::commit()
 {
     QProcess bash;
-    QString commit = WorkPath + "/commit.sh";
+    QString commit = "bash " + WorkPath + "/commit.sh";
     return (!bash.execute(commit)) ? true : false;  //命令正常执行返回的状态码为零
 }
 
 bool Git::push()
 {
     QProcess bash;
-    QString push = WorkPath + "/push.sh";
+    QString push = "bash " + WorkPath + "/push.sh";
     return (!bash.execute(push)) ? true : false;
 }

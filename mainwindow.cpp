@@ -22,6 +22,7 @@
 #include "about.h"
 #include "system.h"
 #include "git.h"
+#include "settings.h"
 
 #include <QMessageBox>
 #include <QPushButton>
@@ -238,13 +239,6 @@ void MainWindow::on_action_Paste_triggered()
     ui->textEdit->paste();
 }
 
-void MainWindow::on_action_Version_triggered()
-{
-    About *version = new About(this);
-    version->show();
-    version->setWindowTitle("关于");
-}
-
 void MainWindow::showFindText()
 {
     QString str = findLineEdit->text();
@@ -301,4 +295,18 @@ void MainWindow::on_action_Commit_triggered()
                               tr("提交到git失败：\n"
                                  "请检查您的网络！"));
     }
+}
+
+void MainWindow::on_action_Settings_triggered()
+{
+    Settings *setting = new Settings(this);
+    setting->show();
+    setting->setWindowTitle(tr("设置"));
+}
+
+void MainWindow::on_action_About_triggered()
+{
+    About *about = new About(this);
+    about->show();
+    about->setWindowTitle(tr("关于"));
 }

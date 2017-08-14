@@ -21,6 +21,7 @@
 #define SETTINGS_H
 
 #include <QDialog>
+#include <QString>
 
 namespace Ui {
 class Settings;
@@ -33,9 +34,15 @@ class Settings : public QDialog
 public:
     explicit Settings(QWidget *parent = 0);
     ~Settings();
+    void lineEditGetFocus();
+    QString getBlogPath();
+
+private slots:
+    void on_buttonBox_accepted();
 
 private:
     Ui::Settings *ui;
+    bool WriteTxt(QString FilePath, QString Content);
 };
 
 #endif // SETTINGS_H

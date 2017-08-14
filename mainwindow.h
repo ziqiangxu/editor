@@ -65,12 +65,15 @@ private slots:
     void on_action_Paste_triggered();
     void closeEvent(QCloseEvent *event);
 
-    void on_action_Version_triggered();
     void showFindText();
 
     void on_action_Find_triggered();
 
     void on_action_Commit_triggered();
+
+    void on_action_Settings_triggered();
+
+    void on_action_About_triggered();
 
 private:
     Ui::MainWindow *ui;

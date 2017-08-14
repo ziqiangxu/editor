@@ -20,6 +20,19 @@
     </item>
    </layout>
   </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="action_Commit"/>
+  </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
@@ -54,31 +67,20 @@
     <property name="title">
      <string>帮助(&amp;H)</string>
     </property>
-    <addaction name="action_Version"/>
+    <addaction name="action_About"/>
+    <addaction name="action"/>
    </widget>
    <widget class="QMenu" name="menu_A">
     <property name="title">
-     <string>高级功能(&amp;A)</string>
+     <string>选项(&amp;O)</string>
     </property>
     <addaction name="action_Commit"/>
+    <addaction name="action_Settings"/>
    </widget>
    <addaction name="menu_F"/>
    <addaction name="menu"/>
    <addaction name="menu_A"/>
    <addaction name="menu_2"/>
-  </widget>
-  <widget class="QStatusBar" name="statusBar"/>
-  <widget class="QToolBar" name="toolBar">
-   <property name="windowTitle">
-    <string>toolBar</string>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-   <addaction name="action_Commit"/>
   </widget>
   <action name="action_New">
    <property name="icon">
@@ -95,6 +97,9 @@
   <action name="action_Close">
    <property name="text">
     <string>关闭(&amp;C)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+C</string>
    </property>
   </action>
   <action name="action_Save">
@@ -117,25 +122,40 @@
    <property name="text">
     <string>退出(&amp;X)</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+X</string>
+   </property>
   </action>
   <action name="action_Undo">
    <property name="text">
     <string>撤销(&amp;Z)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Z</string>
    </property>
   </action>
   <action name="action_Cut">
    <property name="text">
     <string>剪切(&amp;X)</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+X</string>
+   </property>
   </action>
   <action name="action_Copy">
    <property name="text">
     <string>复制(&amp;C)</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
+   </property>
   </action>
   <action name="action_Paste">
    <property name="text">
     <string>粘贴(&amp;V)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+V</string>
    </property>
   </action>
   <action name="action_Find">
@@ -146,14 +166,20 @@
     <string>Ctrl+F</string>
    </property>
   </action>
-  <action name="action_Version">
+  <action name="action_About">
    <property name="text">
-    <string>版本说明</string>
+    <string>相关说明(&amp;D)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+D</string>
    </property>
   </action>
   <action name="action_Open">
    <property name="text">
     <string>打开(&amp;O)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
    </property>
   </action>
   <action name="action_Commit">
@@ -169,6 +195,22 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+C</string>
+   </property>
+  </action>
+  <action name="action_Settings">
+   <property name="text">
+    <string>设置(&amp;S)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+S</string>
+   </property>
+  </action>
+  <action name="action">
+   <property name="text">
+    <string>检查更新(&amp;U)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+U</string>
    </property>
   </action>
  </widget>
