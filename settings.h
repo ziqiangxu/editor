@@ -36,6 +36,9 @@ public:
     ~Settings();
     void lineEditGetFocus();
     QString getBlogPath();
+    QString workpath;
+    QString blog_path;
+    QString default_file;
 
 private slots:
     void on_buttonBox_accepted();
@@ -43,6 +46,7 @@ private slots:
 private:
     Ui::Settings *ui;
     bool WriteTxt(QString FilePath, QString Content);
+    bool ReadTxt(QString FilePath, QString& Content);
 };
 
 #endif // SETTINGS_H

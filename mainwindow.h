@@ -19,8 +19,10 @@
  */
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
+
 #include <QCloseEvent>
 #include <QMainWindow>
+
 class QLineEdit;
 class QDialog;
 class QLabel;
@@ -36,11 +38,17 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
     void newFile();  //create a new file
+
     bool maybeSave();  //wether need to save
+
     bool save();  //save your modification
+
     bool saveAs();  //save the file as
+
     bool saveFile(const QString &fileName);  //save the file
+
     bool loadFile(const QString &fileName);  //load a file
 
 private slots:
@@ -63,6 +71,7 @@ private slots:
     void on_action_Copy_triggered();
 
     void on_action_Paste_triggered();
+
     void closeEvent(QCloseEvent *event);
 
     void showFindText();
@@ -75,15 +84,27 @@ private slots:
 
     void on_action_About_triggered();
 
+    void on_action_triggered();
+
 private:
     Ui::MainWindow *ui;
 
     bool isUntiled;  //to mark weather the file exist
+
     bool isSaved;  //to mark weather the file modification saved
+
     QString curFile;  //save the current file path
+
     QLineEdit *findLineEdit;
+
     QDialog *findDlg;
+
     QLabel *permanentLable;
+
+protected:
+    void dragEnterEvent(QDragEnterEvent *event);  //拖入进入事件
+
+    void dropEvent(QDropEvent *event);  //放下事件
 };
 
 #endif // MAINWINDOW_H

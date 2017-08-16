@@ -49,7 +49,7 @@ bool System::netStatus()
         return true;
     }
     else{
-        return false;
         std::cout<<"网络不通";
+        return false;
     }
 }

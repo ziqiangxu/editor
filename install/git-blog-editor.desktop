@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=git-blog-editor
+Exec=/usr/share/git-blog-editor/mymainwindow
+Icon=~/.config/git-blog-editor/git-blog-editor.ico
+Terminal=false
+Type=Application
+Encoding=UTF-8
+Categories=Application;Utility;
+StartupNotify=false

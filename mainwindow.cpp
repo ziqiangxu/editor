@@ -35,6 +35,11 @@
 #include <QLabel>
 #include <QString>
 #include <QDesktopServices>
+#include <QDragEnterEvent>
+#include <QUrl>
+#include <QList>
+#include <QMimeData>
+#include <QDropEvent>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -42,10 +47,22 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    isUntiled = true;
-    curFile = tr("untitled.txt");
-    setWindowTitle(curFile);
-    //初始化查找文本操作
+    //load the default file
+    Settings set;
+    if (set.default_file.isEmpty()){
+        isUntiled = true;
+        curFile = tr("untitled.txt");
+        setWindowTitle(curFile);
+    }
+    else
+    {
+        loadFile(set.default_file);
+    }
+
+    //to make main window can accept drop event
+    setAcceptDrops(true);
+
+    //init the search dialog
     findDlg = new QDialog(this);
     findDlg->setWindowTitle(tr("查找"));
     findLineEdit = new QLineEdit(findDlg);  //接受一个QDialg对话为初始化对象的参数
@@ -55,12 +72,14 @@ MainWindow::MainWindow(QWidget *parent) :
     layout->addWidget(btn);
     connect(btn,&QPushButton::clicked,this,&MainWindow::showFindText);  //查找窗口的信号——槽连接函数
 
+    /*add the permanent lable on the main window
     permanentLable = new QLabel;
     permanentLable->setFrameStyle(QFrame::Box | QFrame::Sunken);
     permanentLable->setText(tr("<a href=\"https://ziqiangxu.github.io\">访问我的博客</a>"));
     permanentLable->setTextFormat(Qt::RichText);
     permanentLable->setOpenExternalLinks(true);
     ui->statusBar->addPermanentWidget(permanentLable);
+    */
 }
 
 MainWindow::~MainWindow()
@@ -282,14 +301,7 @@ void MainWindow::on_action_Commit_triggered()
                               tr("提交结果"),
                               tr("只上传了您上一次的更新"));
     }
-    else if (!commit_result && !push_result) {
-        QMessageBox::warning(this,
-                              tr("提交结果"),
-                              tr("可能产生本警告的原因：\n"
-                                 "1.您未对本地仓库中的文件进行修改;\n"
-                                 "2.本地提交失败，而且网络不通。"));
-    }
-    else if (commit_result && !push_result) {
+    else if (!push_result) {
         QMessageBox::warning(this,
                               tr("提交结果"),
                               tr("提交到git失败：\n"
@@ -309,4 +321,33 @@ void MainWindow::on_action_About_triggered()
     About *about = new About(this);
     about->show();
     about->setWindowTitle(tr("关于"));
+}
+
+void MainWindow::dragEnterEvent(QDragEnterEvent *event)
+{
+    if (event->mimeData()->hasUrls())
+    {
+        event->acceptProposedAction();  //如果拖入含有URL则接受
+    }
+    else
+    {
+        event->ignore();
+    }
+}
+
+void MainWindow::dropEvent(QDropEvent *event)
+{
+    const QMimeData *mime_data = event->mimeData();
+    if (mime_data->hasUrls())
+    {
+        QList<QUrl> url_list = mime_data->urls();
+        QString filename = url_list.at(0).toLocalFile();
+        loadFile(filename);
+    }
+}
+
+void MainWindow::on_action_triggered()
+{
+    QMessageBox::about(this,tr("检查更新"),tr("在线更新正在开发，暂时请前往"
+                                          "https://github.com/ziqiangxu/editor查看"));
 }
