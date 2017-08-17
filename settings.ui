@@ -51,6 +51,9 @@
      <height>32</height>
     </rect>
    </property>
+   <property name="placeholderText">
+    <string>请输入不以/结束的绝对地址</string>
+   </property>
   </widget>
   <widget class="QLabel" name="label_2">
    <property name="geometry">
