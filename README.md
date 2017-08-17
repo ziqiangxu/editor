@@ -20,4 +20,4 @@ cd install
 
 coding的说明是中文的，搭建好了之后可以使用一个模板来改善外观和改善管理方式。
 
-[E-mail](mailto:ziqiang_xu@yeah.net)s
+[E-mail](mailto:ziqiang_xu@yeah.net)
