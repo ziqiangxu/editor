@@ -13,9 +13,11 @@ cd install
 注：请不要使用sudo ./install，否则会安装出错
 
 附上gitpage搭建方法：
+
 [使用GitHub](http://blog.csdn.net/yanzhenjie1003/article/details/51703370)
 
 [使用Coding](https://coding.net/help/doc/pages/index.html)
 
 coding的说明是中文的，搭建好了之后可以使用一个模板来改善外观和改善管理方式。
+
 [E-mail](mailto:ziqiang_xu@yeah.net)s
